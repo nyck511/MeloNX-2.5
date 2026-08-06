@@ -38,7 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4EC482D12F8D101B008C1955 /* Ryujinx.Library.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = Ryujinx.Library.dylib; path = "../Ryujinx.Library/bin/Release/net10.0/ios-arm64/native/Ryujinx.Library.dylib"; sourceTree = "<group>"; };
+		4EC482D12F8D101B008C1955 /* Ryujinx.Library.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = Ryujinx.Library.dylib; path = "src/Ryujinx.Library/bin/Release/net10.0/ios-arm64/native/Ryujinx.Library.dylib"; sourceTree = "<group>"; };
 		4ED5D50B2F80DD02007DB057 /* MeloNX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeloNX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -95,7 +95,7 @@
 				4EC482CC2F8CF95A008C1955 /* Exceptions for "MeloNX" folder in "MeloNX" target */,
 				4EC482C32F8CD84F008C1955 /* Exceptions for "MeloNX" folder in "Embed Libraries" phase from "MeloNX" target */,
 			);
-			path = MeloNX;
+			path = src/MeloNX/MeloNX;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -149,7 +149,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /bin/bash;
-			buildWorkingDirectory = "$(SRCROOT)/../../";
+			buildWorkingDirectory = "$(SRCROOT)";
 			dependencies = (
 			);
 			name = Ryujinx;
@@ -389,18 +389,18 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = MeloNX/MeloNX.entitlements;
+				CODE_SIGN_ENTITLEMENTS = src/MeloNX/MeloNX/MeloNX.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4D52P7Z7YN;
+				DEVELOPMENT_TEAM = 4RTSA47M5X;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MeloNX/Frameworks",
-					"$(PROJECT_DIR)/MeloNX/Dependencies",
+					"$(PROJECT_DIR)/src/MeloNX/MeloNX/Frameworks",
+					"$(PROJECT_DIR)/src/MeloNX/MeloNX/Dependencies",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MeloNX/Info.plist;
+				INFOPLIST_FILE = src/MeloNX/MeloNX/Info.plist;
 				INFOPLIST_KEY_GCSupportsControllerUserInteraction = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
@@ -416,17 +416,17 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MeloNX/Frameworks",
-					"$(PROJECT_DIR)/MeloNX/Dependencies",
+					"$(PROJECT_DIR)/src/MeloNX/MeloNX/Frameworks",
+					"$(PROJECT_DIR)/src/MeloNX/MeloNX/Dependencies",
 				);
 				MARKETING_VERSION = 2.5;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stossy11.MeloNX;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stossy11.wow.MeloKatie101;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "MeloNX/Core/MeloNX-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "src/MeloNX/MeloNX/Core/MeloNX-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -441,18 +441,18 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = MeloNX/MeloNX.entitlements;
+				CODE_SIGN_ENTITLEMENTS = src/MeloNX/MeloNX/MeloNX.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4D52P7Z7YN;
+				DEVELOPMENT_TEAM = 4RTSA47M5X;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MeloNX/Frameworks",
-					"$(PROJECT_DIR)/MeloNX/Dependencies",
+					"$(PROJECT_DIR)/src/MeloNX/MeloNX/Frameworks",
+					"$(PROJECT_DIR)/src/MeloNX/MeloNX/Dependencies",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MeloNX/Info.plist;
+				INFOPLIST_FILE = src/MeloNX/MeloNX/Info.plist;
 				INFOPLIST_KEY_GCSupportsControllerUserInteraction = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
@@ -468,17 +468,17 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MeloNX/Frameworks",
-					"$(PROJECT_DIR)/MeloNX/Dependencies",
+					"$(PROJECT_DIR)/src/MeloNX/MeloNX/Frameworks",
+					"$(PROJECT_DIR)/src/MeloNX/MeloNX/Dependencies",
 				);
 				MARKETING_VERSION = 2.5;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stossy11.MeloNX;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stossy11.wow.MeloKatie101;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "MeloNX/Core/MeloNX-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "src/MeloNX/MeloNX/Core/MeloNX-Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -6,7 +6,7 @@ set -e
 [ -f "$HOME/.bash_profile" ] && source "$HOME/.bash_profile" || true
 [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc" || true
 
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="$HOME/.dotnet:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 DOTNET=$(command -v dotnet || true)
 
@@ -14,7 +14,8 @@ if [ -z "$DOTNET" ]; then
   for candidate in \
     "/opt/homebrew/bin/dotnet" \
     "/usr/local/bin/dotnet" \
-    "/usr/local/share/dotnet/dotnet"
+    "/usr/local/share/dotnet/dotnet" \
+    "$HOME/.dotnet/dotnet"
   do
     if [ -x "$candidate" ]; then
       DOTNET="$candidate"
