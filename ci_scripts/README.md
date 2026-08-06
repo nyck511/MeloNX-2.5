@@ -13,4 +13,4 @@ Configure the workflow with:
 
 The post-clone script installs the .NET SDK version declared in `global.json` into `$HOME/.dotnet`. The Xcode `Ryujinx` legacy target then runs `distribution/ios/build.sh` to publish `Ryujinx.Library` for `ios-arm64` before the Swift application is linked.
 
-Code signing remains automatic and uses Apple Developer team `4RTSA47M5X` with the existing Xcode Cloud product bundle identifier `com.stossy11.wow.MeloKatie101`. Do not add certificates, provisioning profiles, private keys, or Apple credentials to this repository.
+Code signing remains automatic and uses Apple Developer team `CYPLLD8ATV` with product bundle identifier `com.stossy11.wow.MeloNycK`. This mapping includes the registered device named Quiet and the required increased-memory entitlement. Do not add certificates, provisioning profiles, private keys, or Apple credentials to this repository.
