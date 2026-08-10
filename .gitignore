@@ -186,4 +186,8 @@ PublishProfiles/
 distribution/macos/temp/
 distribution/macos/output/
 
-src/MeloNX/MeloNX.xcodeproj/project.xcworkspace/xcuserdata/*
+# Xcode per-user state (project location independent)
+**/xcuserdata/
+*.xcuserstate
+**/xcdebugger/Breakpoints_v2.xcbkptlist
+**/xcschemes/xcschememanagement.plist

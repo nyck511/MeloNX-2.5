@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-[ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc" || true
-[ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile" || true
-[ -f "$HOME/.bash_profile" ] && source "$HOME/.bash_profile" || true
-[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc" || true
+export PATH="$HOME/.dotnet:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
-export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+DOTNET="${DOTNET:-}"
 
-DOTNET=$(command -v dotnet || true)
+if [ -z "$DOTNET" ] && [ -n "${DOTNET_ROOT:-}" ] && [ -x "$DOTNET_ROOT/dotnet" ]; then
+  DOTNET="$DOTNET_ROOT/dotnet"
+fi
+
+if [ -z "$DOTNET" ]; then
+  DOTNET=$(command -v dotnet || true)
+fi
 
 if [ -z "$DOTNET" ]; then
   for candidate in \
     "/opt/homebrew/bin/dotnet" \
     "/usr/local/bin/dotnet" \
-    "/usr/local/share/dotnet/dotnet"
+    "/usr/local/share/dotnet/dotnet" \
+    "$HOME/.dotnet/dotnet"
   do
     if [ -x "$candidate" ]; then
       DOTNET="$candidate"
@@ -28,4 +32,4 @@ if [ -z "$DOTNET" ]; then
   exit 1
 fi
 
-dotnet publish -c Release -r ios-arm64 -p:ExtraDefineConstants=DISABLE_UPDATER src/Ryujinx.Library --self-contained true
+"$DOTNET" publish -c Release -r ios-arm64 -p:ExtraDefineConstants=DISABLE_UPDATER src/Ryujinx.Library --self-contained true
