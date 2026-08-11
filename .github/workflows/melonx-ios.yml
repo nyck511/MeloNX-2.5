@@ -24,8 +24,6 @@ jobs:
     timeout-minutes: 90
     env:
       DOTNET_VERSION: 10.0.100
-      DERIVED_DATA_PATH: ${{ runner.temp }}/MeloNXDerivedData
-      RESULT_BUNDLE_PATH: ${{ runner.temp }}/MeloNX.xcresult
 
     steps:
       - name: Check out source
@@ -100,6 +98,9 @@ jobs:
 
       - name: Build unsigned Release device target
         shell: bash
+        env:
+          DERIVED_DATA_PATH: ${{ runner.temp }}/MeloNXDerivedData
+          RESULT_BUNDLE_PATH: ${{ runner.temp }}/MeloNX.xcresult
         run: |
           set -o pipefail
           xcodebuild \
@@ -121,6 +122,6 @@ jobs:
         with:
           name: MeloNX-xcodebuild-diagnostics
           path: |
-            ${{ env.RESULT_BUNDLE_PATH }}
-            ${{ env.DERIVED_DATA_PATH }}/Logs
+            ${{ runner.temp }}/MeloNX.xcresult
+            ${{ runner.temp }}/MeloNXDerivedData/Logs
           if-no-files-found: ignore
