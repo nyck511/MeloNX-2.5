@@ -1,0 +1,126 @@
+name: MeloNX iOS CI
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+      - agent/xcode-cloud-xcode-27
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: melonx-ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios-release:
+    name: Xcode 27 / iOS 27 unsigned Release
+    runs-on: macos-26
+    timeout-minutes: 90
+    env:
+      DOTNET_VERSION: 10.0.100
+      DERIVED_DATA_PATH: ${{ runner.temp }}/MeloNXDerivedData
+      RESULT_BUNDLE_PATH: ${{ runner.temp }}/MeloNX.xcresult
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 27 beta
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          selected=""
+          while IFS= read -r developer_dir; do
+            xcodebuild_path="$developer_dir/usr/bin/xcodebuild"
+            [[ -x "$xcodebuild_path" ]] || continue
+
+            version_output="$($xcodebuild_path -version 2>/dev/null || true)"
+            xcode_major="$(printf '%s\n' "$version_output" | awk 'NR == 1 { split($2, version, "."); print version[1] }')"
+            if [[ "$xcode_major" == "27" ]]; then
+              selected="$developer_dir"
+              break
+            fi
+          done < <(find /Applications /Library/Developer -type d -path '*/Contents/Developer' -print 2>/dev/null | sort -u)
+
+          if [[ -z "$selected" ]]; then
+            echo "Xcode 27 was not found on this macOS runner. Refusing to fall back to another Xcode version."
+            echo "Installed Xcode developer directories:"
+            find /Applications /Library/Developer -type d -path '*/Contents/Developer' -print 2>/dev/null | sort -u || true
+            exit 1
+          fi
+
+          version_output="$($selected/usr/bin/xcodebuild -version)"
+          sdk_version="$($selected/usr/bin/xcodebuild -sdk iphoneos -version SDKVersion)"
+          printf '%s\n' "$version_output"
+          printf 'iPhoneOS SDK: %s\n' "$sdk_version"
+
+          if [[ "$sdk_version" != 27 && "$sdk_version" != 27.* ]]; then
+            echo "Xcode 27 was selected, but its iPhoneOS SDK is $sdk_version rather than iOS 27."
+            exit 1
+          fi
+
+          echo "DEVELOPER_DIR=$selected" >> "$GITHUB_ENV"
+
+      - name: Validate shell scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash -n distribution/ios/build.sh
+          sh -n ci_scripts/ci_post_clone.sh
+          sh -n ci_scripts/ci_pre_xcodebuild.sh
+
+      - name: Prepare exact .NET SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          required_version="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' global.json | head -n 1)"
+          [[ "$required_version" == "$DOTNET_VERSION" ]] || {
+            echo "global.json requires $required_version, expected $DOTNET_VERSION."
+            exit 1
+          }
+
+          ./ci_scripts/ci_post_clone.sh
+          echo "DOTNET_ROOT=$HOME/.dotnet" >> "$GITHUB_ENV"
+          echo "$HOME/.dotnet" >> "$GITHUB_PATH"
+
+      - name: Run pre-build validation
+        shell: bash
+        run: ./ci_scripts/ci_pre_xcodebuild.sh
+
+      - name: Inspect Xcode project
+        shell: bash
+        run: xcodebuild -list -project MeloNX.xcodeproj
+
+      - name: Build unsigned Release device target
+        shell: bash
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project MeloNX.xcodeproj \
+            -scheme MeloNX \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$DERIVED_DATA_PATH" \
+            -resultBundlePath "$RESULT_BUNDLE_PATH" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY= \
+            build
+
+      - name: Upload Xcode build diagnostics
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: MeloNX-xcodebuild-diagnostics
+          path: |
+            ${{ env.RESULT_BUNDLE_PATH }}
+            ${{ env.DERIVED_DATA_PATH }}/Logs
+          if-no-files-found: ignore
